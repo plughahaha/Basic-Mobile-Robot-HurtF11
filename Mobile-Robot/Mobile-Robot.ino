@@ -1,11 +1,14 @@
-// test sa-wud-dee-krub-P,Nine
+#include "Motor.h"
 
 void setup() {
-  // put your setup code here, to run once:
+  // Motor(Motor , Direction , speed , Time )
+  Motor("Motor1","Forward",255,5000);
+  Motor("Motor1","Backward",255,5000);
 
-}
+  Motor("Motor2","Forward",255,5000);
+  Motor("Motor2","Backward",255,5000);
+} 
 
 void loop() {
-  // put your main code here, to run repeatedly:
 
 }
