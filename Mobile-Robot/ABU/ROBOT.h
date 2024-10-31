@@ -6,24 +6,25 @@
 
 class Robot {
 private:
-  Motor motor_FL;
-  Motor motor_BL;
-  Motor motor_FR;
-  Motor motor_BR;
+    // กำหนด PIN สำหรับมอเตอร์แต่ละตัว
+    Motor motor_FL = Motor(2, 3, 4); // มอเตอร์ด้านหน้า-ซ้าย
+    Motor motor_FR = Motor(10, 11, 12); // มอเตอร์ด้านหน้า-ขวา
+    Motor motor_BL = Motor(6, 7, 8); // มอเตอร์ด้านหลัง-ซ้าย
+    Motor motor_BR = Motor(13, 14, 15); // มอเตอร์ด้านหลัง-ขวา
 
 public:
-  Robot();
-  void begin();
-  void F();
-  void B();
-  
-  void SL();
-  void SR();
+    void F();
+    void B();
 
-  void FR();
-  void FL();
-  void BL();
-  void BR();
+    void SL();
+    void SR();
+
+    void FR();
+    void FL();
+    void BR();
+    void BL();
+
+    void stop();
 };
 
 #endif
