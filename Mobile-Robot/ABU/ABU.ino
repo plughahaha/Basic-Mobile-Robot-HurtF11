@@ -1,31 +1,36 @@
 #include "MOTOR.h"
 #define led 25
 #include "pio_encoder.h"
-#include "ROBOT.h"
-Robot myRobot;
 
-// #include <Wire.h>
-// #include <MPU6050.h>
-PioEncoder encA(16);
-PioEncoder encB(18);
-PioEncoder encC(20);
-PioEncoder encD(0);
-
+PioEncoder encoder_FR(16);
+PioEncoder encoder_BL(18);
+PioEncoder encoder_BR(20);
+PioEncoder encoder_FL(0);
 Motor motor_FL(2, 3, 4);
 Motor motor_BL(6, 7, 8);
 Motor motor_FR(10, 11, 12);
 Motor motor_BR(13, 14, 15);
 
-// A = FR
-// C = BR
+double Kp = 5.0, Ki = 0.1, Kd = 10;
+double integral = 0;
+double previous_error = 0;
+int error = 0;
+int base_speed = 128;
+int output = 0;
+int en_FL = 0;
+int en_FR = 0;
+int en_BL = 0;
+int en_BR = 0;
+
+#include "Forward.h"
+#include "Backward.h"
 
 void setup() {
-
-  encA.begin();
-  encB.begin();
-  encC.begin();
-  encD.begin();
-  Serial.begin(115200);
+  encoder_FR.begin();
+  encoder_BL.begin();
+  encoder_BR.begin();
+  encoder_FL.begin();
+  Serial.begin(9600);
 
   pinMode(led, OUTPUT);
   for (int i = 1; i < 20; i++) {
@@ -35,53 +40,13 @@ void setup() {
     delay(30);
   }
   digitalWrite(led, HIGH);
-
-  // myRobot.F();
-  // delay(2000);
-  // myRobot.B();
-  // delay(2000);
-
-  // myRobot.SL();
-  // delay(2000);
-  // myRobot.SR();
-  // delay(2000);
-
-  // myRobot.FR();
-  // delay(2000);
-  // myRobot.BL();
-  // delay(2000);
-
-  // myRobot.FL();
-  // delay(2000);
-  // myRobot.BR();
-  // delay(2000);
-
-  // while (encA.getCount() > -10000 && encA.getCount() < 10000) {
-  //   motor_FL.speed(128);
-  //   motor_FR.speed(128);
-  //   motor_BL.speed(-128);
-  //   motor_BR.speed(128);
-  //   Serial.print(encA.getCount());
-  //   Serial.print("\n");
-  // }
-  // motor_FL.stop();
-  // motor_FR.stop();
-  // motor_BR.stop();
-  // motor_BL.stop();
 }
 
 void loop() {
-  Serial.print(encA.getCount());
-  Serial.print("\t\t");
+  Backward(40);
 
-  Serial.print(encB.getCount());
-  Serial.print("\t\t");
-
-  Serial.print(encC.getCount());
-  Serial.print("\t\t");
-
-  Serial.print(encD.getCount());
-  Serial.print("\n");
-
-  delay(10);
+  // en_FR = encoder_FR.getCount();
+  // Serial.print("encoder FR = ");
+  // Serial.println(en_FR);
+  // delay(300);
 }

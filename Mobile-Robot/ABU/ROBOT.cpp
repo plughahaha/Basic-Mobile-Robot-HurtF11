@@ -1,4 +1,4 @@
-#include "Robot.h"
+#include "ROBOT.h"
 
 // normal
 void Robot::F() {
@@ -54,7 +54,7 @@ void Robot::FR() {
   motor_FR.speed(0);
   motor_BL.speed(0);
   motor_BR.speed(128);
-  delay(1000);
+  delay(7000);
   motor_FL.stop();
   motor_FR.stop();
   motor_BL.stop();
@@ -90,7 +90,7 @@ void Robot::BL() {
   motor_FR.speed(0);
   motor_BL.speed(0);
   motor_BR.speed(-128);
-  delay(1000);
+  delay(7000);
   motor_FL.stop();
   motor_FR.stop();
   motor_BL.stop();
