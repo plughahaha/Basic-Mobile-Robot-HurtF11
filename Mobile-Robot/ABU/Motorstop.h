@@ -3,5 +3,5 @@ void motorstop() {
   motor_FR.stop();
   motor_BL.stop();
   motor_BR.stop();
-  delay(5000);
+  delay(1500);
 }

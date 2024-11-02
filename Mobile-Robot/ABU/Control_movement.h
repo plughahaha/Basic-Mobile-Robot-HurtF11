@@ -1,5 +1,8 @@
 
 void Control_movement(String direction, int distance) {
+  // static double position_x = 0;
+  // static double position_y = 0;
+
   encoder_FR.reset();
   encoder_BL.reset();
   encoder_BR.reset();
@@ -35,7 +38,7 @@ void Control_movement(String direction, int distance) {
   cal_delta_BL = 0;
   cal_delta_BR = 0;
   //  double tick = (distance / 8) * 4000;
-  tick = distance * (4000 * 1);
+  tick = distance * (125);
   average_encoder = 0;
   while (average_encoder < tick) {
     en_FL = encoder_FL.getCount();
@@ -269,12 +272,57 @@ void Control_movement(String direction, int distance) {
     integral_BR += error_BR;
     previous_error_BR = error_BR;
 
+
+    // if (direction == "Forward" || direction == "Backward") {
+    //   current_x += average_encoder / 125;
+    // }
+
+    if (direction == "Forward") {
+      Serial.print("current = (");
+      Serial.print(position_x);
+      Serial.print(",");
+      Serial.print(position_y + int(average_encoder / 125));
+      Serial.print(")");
+      Serial.print("          ");
+    }
+    if (direction == "SL") {
+
+      Serial.print("current = (");
+      Serial.print(position_x - int(average_encoder / 125));
+      Serial.print(",");
+      Serial.print(position_y);
+      Serial.print(")");
+      Serial.print("          ");
+
+    } else if (direction == "SR") {
+
+      Serial.print("current = (");
+      Serial.print(position_x + int(average_encoder / 125));
+      Serial.print(",");
+      Serial.print(position_y);
+      Serial.print(")");
+      Serial.print("          ");
+    } else if (direction == "Backward") {
+      Serial.print("current = (");
+      Serial.print(position_x);
+      Serial.print(",");
+      Serial.print(position_y - int(average_encoder / 125));
+      Serial.print(")");
+      Serial.print("          ");
+    }
+
+
+
     Serial.print("tick = ");
     Serial.print(tick);
     Serial.print("          ");
 
     Serial.print("average_encoder = ");
     Serial.print(average_encoder);
+    Serial.print("          ");
+
+    Serial.print("distance = ");
+    Serial.print(average_encoder / 125);
     Serial.print("          x          ");
 
     Serial.print("error_FL = ");
@@ -347,4 +395,14 @@ void Control_movement(String direction, int distance) {
     Serial.print("\n");
   }
   distance = 0;
+  if (direction == "Forward") {
+    position_y += average_encoder / 125;
+  } else if (direction == "Backward") {
+    position_y -= average_encoder / 125;
+  }
+  if (direction == "SL") {
+    position_x -= average_encoder / 125;
+  } else if (direction == "SR") {
+    position_x += average_encoder / 125;
+  }
 }

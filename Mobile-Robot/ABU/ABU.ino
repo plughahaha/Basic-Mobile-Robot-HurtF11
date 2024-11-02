@@ -11,6 +11,12 @@ Motor motor_BL(6, 7, 8);
 Motor motor_FR(10, 11, 12);
 Motor motor_BR(13, 14, 15);
 
+int last_x = 0;
+int last_y = 0;
+int position_x = 0;
+int position_y = 0;
+
+
 double Kp = 0, Ki = 0, Kd = 0;
 double Kp_FL = 7, Ki_FL = 0, Kd_FL = 10;
 double Kp_FR = 7, Ki_FR = 0, Kd_FR = 10;
@@ -47,8 +53,13 @@ double cal_delta_FR = 0;
 double cal_delta_BL = 0;
 double cal_delta_BR = 0;
 
+double current_position = 0;
+
 #include "Motorstop.h"
 #include "Control_movement.h"
+#include "Two_motor_FR.h"
+#include "Two_motor_FL.h"
+#include "Condition_XY.h"
 
 void setup() {
   encoder_FR.begin();
@@ -66,15 +77,54 @@ void setup() {
   }
   digitalWrite(led, HIGH);
 
-  Control_movement("Forward",3);
-  motorstop();
-  Control_movement("Backward",3);
-  motorstop();
-  Control_movement("SL",3);
-  motorstop();
-  Control_movement("SR",6);
-  motorstop();
+  // // Control Check
+  // Two_motor_FR("FR", 50);
+  // motorstop();
+  // Two_motor_FR("BL", 50);
+  // motorstop();
+  // Two_motor_FL("FL", 50);
+  // motorstop();
+  // Two_motor_FL("BR", 50);
+  // motorstop();
+
+  // Control_movement("Forward", 60);
+  // motorstop();
+  // Control_movement("Backward", 60);
+  // motorstop();
+  // Control_movement("SL", 60);
+  // motorstop();
+  // Control_movement("SR", 60);
+  // motorstop();
+
+  // wait Serial and give tuteorial
+  while (!Serial)
+    ;
+  Serial.println("Enter (x,y) for coordinates or command = ");
 }
 
 void loop() {
+  if (Serial.available() > 0) {
+    String input = Serial.readStringUntil('\n');
+    if (input.startsWith("(") && input.endsWith(")")) {
+      int commaIndex = input.indexOf(',');
+      if (commaIndex != -1) {
+        int x = input.substring(1, commaIndex).toInt();
+        int y = input.substring(commaIndex + 1, input.length() - 1).toInt();
+        Condition_XY(x, y);
+      }
+    } else if (input == "star" || input == "home") {
+      Serial.println("choose star and home");
+    } else {
+      Serial.println("Invalid input!");
+    }
+  }
 }
+
+// Control_movement("Forward",1);
+// motorstop();
+// Control_movement("Backward",1);
+// motorstop();
+// Control_movement("SL",1);
+// motorstop();
+// Control_movement("SR",2);
+// motorstop();
