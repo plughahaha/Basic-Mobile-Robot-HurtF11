@@ -25,7 +25,7 @@ void Motor::speed(int speed) {
 }
 
 void Motor::stop() {
-  analogWrite(pwmPin, 0);
-  digitalWrite(dirPin1, LOW);
-  digitalWrite(dirPin2, LOW);
+  analogWrite(pwmPin, LOW);
+  digitalWrite(dirPin1, HIGH);
+  digitalWrite(dirPin2, HIGH);
 }
