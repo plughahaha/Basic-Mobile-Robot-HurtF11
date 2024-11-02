@@ -223,4 +223,11 @@ void Two_motor_FL(String direction, int distance) {
     Serial.print("\n");
   }
   distance = 0;
+  if (direction == "FL") {
+    position_x -= average_encoder / 125;
+    position_y += average_encoder / 125;
+  } else if (direction == "BR") {
+    position_x += average_encoder / 125;
+    position_y -= average_encoder / 125;
+  }
 }
