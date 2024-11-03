@@ -54,6 +54,9 @@ double cal_delta_BL = 0;
 double cal_delta_BR = 0;
 
 double current_position = 0;
+double previous_time;
+double current_time;
+double posi ;
 
 #include "Motorstop.h"
 #include "Control_movement.h"
@@ -77,10 +80,13 @@ void setup() {
   }
   digitalWrite(led, HIGH);
 
-  // motor_FL.speed(128);
-  // motor_FR.speed(128);
-  // motor_BL.speed(128);
-  // motor_BR.speed(128);
+  motor_FL.speed(128);
+  motor_FR.speed(128);
+  motor_BL.speed(128);
+  motor_BR.speed(128);
+  delay(3000);
+  motorstop();
+  delay(1000);
 
   // Control Check
   // Two_motor_FR("FR", 200);
@@ -101,13 +107,15 @@ void setup() {
   // Control_movement("SR", 60);
   // motorstop();
 
-  // wait Serial and give tuteorial
   while (!Serial)
-    ;
-  Serial.println("Enter (x,y) for coordinates or command = ");
+  Serial.println("Enter (x,y) for coordinates or command.");
 }
 
 void loop() {
+  // Serial.print("previous time = ");
+  // Serial.print(previous_time);
+  // Serial.print(" , current time = ");
+  // Serial.println(millis());
   if (Serial.available() > 0) {
     String input = Serial.readStringUntil('\n');
     if (input.startsWith("(") && input.endsWith(")")) {

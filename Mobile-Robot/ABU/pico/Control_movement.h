@@ -2,7 +2,6 @@
 void Control_movement(String direction, int distance) {
   // static double position_x = 0;
   // static double position_y = 0;
-
   encoder_FR.reset();
   encoder_BL.reset();
   encoder_BR.reset();
@@ -40,7 +39,12 @@ void Control_movement(String direction, int distance) {
   //  double tick = (distance / 8) * 4000;
   tick = distance * (125);
   average_encoder = 0;
+
+  previous_time = millis();
+
   while (average_encoder < tick) {
+    current_time = (millis() - previous_time)/1000 ; 
+
     en_FL = encoder_FL.getCount();
     en_FR = encoder_FR.getCount();
     en_BL = encoder_BL.getCount();
@@ -272,16 +276,25 @@ void Control_movement(String direction, int distance) {
     integral_BR += error_BR;
     previous_error_BR = error_BR;
 
-
     // if (direction == "Forward" || direction == "Backward") {
     //   current_x += average_encoder / 125;
     // }
+
+    Serial.print("Current Time = ");
+    Serial.print(current_time);
+    Serial.print("          ");
+
+    Serial.print("Current Speed = ");
+    Serial.print(posi/current_time);
+
+    Serial.print("          ");
 
     if (direction == "Forward") {
       Serial.print("current = (");
       Serial.print(position_x);
       Serial.print(",");
-      Serial.print(position_y + int(average_encoder / 125));
+      posi = position_y + int(average_encoder / 125) ;
+      Serial.print(posi);
       Serial.print(")");
       Serial.print("          ");
     }
