@@ -1,10 +1,10 @@
-void Condition_XY(int x, int y) {
-  static int last_x = 0;
-  static int last_y = 0;
+void Condition_XY(float x, float y) {
+  static float last_x = 0;
+  static float last_y = 0;
 
   // คำนวณความห่างระหว่างตำแหน่งปัจจุบันและตำแหน่งก่อนหน้า
-  int distance_x = (x - last_x);
-  int distance_y = (y - last_y);
+  float distance_x = ((x - last_x));
+  float distance_y = ((y - last_y));
 
   // แสดงค่าปัจจุบันของ x และ y
   Serial.print("Position = (");

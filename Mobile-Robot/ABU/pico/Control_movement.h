@@ -1,5 +1,4 @@
-
-void Control_movement(String direction, int distance) {
+void Control_movement(String direction, float distance) {
   // static double position_x = 0;
   // static double position_y = 0;
   encoder_FR.reset();
@@ -37,7 +36,7 @@ void Control_movement(String direction, int distance) {
   cal_delta_BL = 0;
   cal_delta_BR = 0;
   //  double tick = (distance / 8) * 4000;
-  tick = distance * (125);
+  tick = (distance * (125)) * 100;
   average_encoder = 0;
 
   // velocity --------------------------------------------------
@@ -67,8 +66,6 @@ void Control_movement(String direction, int distance) {
     average_delta = (abs(delta_FL) + abs(delta_FR) + abs(delta_BL) + abs(delta_BR)) / 4;
 
     // Velocity -----------------------------------------------------------------------
-
-
     if ((millis()) - previousTime_velocity >= DELTA_T * 1000) {
       ticksChange_velocity = average_encoder - previousTicks_velocity;
 
@@ -303,141 +300,120 @@ void Control_movement(String direction, int distance) {
     integral_BR += error_BR;
     previous_error_BR = error_BR;
 
-    // Serial.print("Velocity = ")
-    // Serial.print(velocity)
-    // Serial.print("          ");
 
-    Serial.print("Velocity = ");
-    Serial.print(velocity);
-    Serial.print("          ");
-
-    // Time part-------------------
-    Serial.print("Current Time = ");
-    Serial.print(current_time);
-    Serial.print("          ");
-    // -----------------------------
-
-    Serial.print("Current Speed = ");
-    Serial.print(posi / current_time);
-
-    Serial.print("          ");
-
+    // Serial.print(Position)---------------------------------------
     if (direction == "Forward") {
-      Serial.print("current = (");
-      Serial.print(position_x);
-      Serial.print(",");
-      posi = position_y + int(average_encoder / 125);
-      Serial.print(posi);
-      Serial.print(")");
+      Serial.print("Current Position (X,Y) = (");
+      Serial.print(position_x / 100);
+      Serial.print(" m, ");
+      Serial.print((position_y + (average_encoder / 125)) / 100);
+      Serial.print(" m)");
       Serial.print("          ");
     }
     if (direction == "SL") {
-
-      Serial.print("current = (");
-      Serial.print(position_x - int(average_encoder / 125));
-      Serial.print(",");
-      Serial.print(position_y);
-      Serial.print(")");
+      Serial.print("Current Position (X,Y) = (");
+      Serial.print((position_x - float(average_encoder / 125)) / 100);
+      Serial.print(" m,");
+      Serial.print(position_y / 100);
+      Serial.print(" m)");
       Serial.print("          ");
-
     } else if (direction == "SR") {
-
-      Serial.print("current = (");
-      Serial.print(position_x + int(average_encoder / 125));
-      Serial.print(",");
-      Serial.print(position_y);
-      Serial.print(")");
+      Serial.print("Current Position (X,Y) = (");
+      Serial.print((position_x + float(average_encoder / 125)) / 100);
+      Serial.print(" m,");
+      Serial.print(position_y / 100);
+      Serial.print(" m)");
       Serial.print("          ");
     } else if (direction == "Backward") {
-      Serial.print("current = (");
-      Serial.print(position_x);
-      Serial.print(",");
-      Serial.print(position_y - int(average_encoder / 125));
-      Serial.print(")");
+      Serial.print("Current Position (X,Y) = (");
+      Serial.print(position_x / 100);
+      Serial.print(" m,");
+      Serial.print((position_y - float(average_encoder / 125)) / 100);
+      Serial.print(" m)");
       Serial.print("          ");
     }
 
-
-
-    Serial.print("tick = ");
-    Serial.print(tick);
+    Serial.print("Velocity = ");
+    Serial.print(velocity);
+    Serial.print(" m/s");
     Serial.print("          ");
 
-    Serial.print("average_encoder = ");
-    Serial.print(average_encoder);
-    Serial.print("          ");
+    // Time part-------------------
+    // Serial.print("Current Time = ");
+    // Serial.print(current_time);
+    // Serial.print("          ");
+    // -----------------------------
 
-    Serial.print("distance = ");
-    Serial.print(average_encoder / 125);
-    Serial.print("          x          ");
+    // Serial.print("Current Speed = ");
+    // Serial.print(((position_y + (average_encoder / 125)) / 100) / current_time);
+    // Serial.print("          ");
 
-    Serial.print("error_FL = ");
-    Serial.print(delta_FL - average_delta);
-    Serial.print("          ");
-
-    Serial.print("error_FR = ");
-    Serial.print(delta_FR - average_delta);
-    Serial.print("          ");
-
-    Serial.print("error_BL = ");
-    Serial.print(delta_BL - average_delta);
-    Serial.print("          ");
-
-    Serial.print("error_BR = ");
-    Serial.print(delta_BR - average_delta);
-    Serial.print("          x          ");
-
-    Serial.print("encoder FL = ");
-    Serial.print(en_FL);
-    Serial.print("          ");
-
-    Serial.print("encoder FR = ");
-    Serial.print(en_FR);
-    Serial.print("          ");
-
-    Serial.print("encoder BL = ");
-    Serial.print(en_BL);
-    Serial.print("          ");
-
-    Serial.print("encoder BR = ");
-    Serial.print(en_BL);
-    Serial.print("          x          ");
-
-    Serial.print("average_delta = ");
-    Serial.print(average_delta);
-    Serial.print("          ");
-
-    Serial.print("delta_FL = ");
-    Serial.print(delta_FL);
-    Serial.print("          ");
-
-    Serial.print("delta_FR = ");
-    Serial.print(delta_FR);
-    Serial.print("          ");
-
-    Serial.print("delta_BL = ");
-    Serial.print(delta_BL);
-    Serial.print("          ");
-
-    Serial.print("delta_BR = ");
-    Serial.print(delta_BR);
-    Serial.print("          x          ");
-
-    Serial.print("output_FL = ");
-    Serial.print(base_speed + output_FL);
-    Serial.print("          ");
-
-    Serial.print("output_FR = ");
-    Serial.print(base_speed + output_FR);
-    Serial.print("          ");
-
-    Serial.print("output_BL = ");
-    Serial.print(base_speed + output_BL);
-    Serial.print("          ");
-
-    Serial.print("output_BR = ");
-    Serial.print(base_speed + output_BR);
-
+    // // Target Tick-----------------------------------------------
+    // Serial.print("tick = ");
+    // Serial.print(tick);
+    // Serial.print("          ");
+    // // Serial.print(average_encoder)------------------------------
+    // Serial.print("average_encoder = ");
+    // Serial.print(average_encoder);
+    // Serial.print("          ");
+    // // Serial.print-----------------------------------------------
+    // Serial.print("distance = ");
+    // Serial.print(average_encoder / 125);
+    // Serial.print("          x          ");
+    // // Serial.print(Error from PID)--------------------------------
+    // Serial.print("error_FL = ");
+    // Serial.print(delta_FL - average_delta);
+    // Serial.print("          ");
+    // Serial.print("error_FR = ");
+    // Serial.print(delta_FR - average_delta);
+    // Serial.print("          ");
+    // Serial.print("error_BL = ");
+    // Serial.print(delta_BL - average_delta);
+    // Serial.print("          ");
+    // Serial.print("error_BR = ");
+    // Serial.print(delta_BR - average_delta);
+    // Serial.print("          x          ");
+    // // Serial.print(Raw_encoder)------------------------------------
+    // Serial.print("encoder FL = ");
+    // Serial.print(en_FL);
+    // Serial.print("          ");
+    // Serial.print("encoder FR = ");
+    // Serial.print(en_FR);
+    // Serial.print("          ");
+    // Serial.print("encoder BL = ");
+    // Serial.print(en_BL);
+    // Serial.print("          ");
+    // Serial.print("encoder BR = ");
+    // Serial.print(en_BL);
+    // Serial.print("          x          ");
+    // // Serial.print(Delta)-------------------------------------------
+    // Serial.print("average_delta = ");
+    // Serial.print(average_delta);
+    // Serial.print("          ");
+    // Serial.print("delta_FL = ");
+    // Serial.print(delta_FL);
+    // Serial.print("          ");
+    // Serial.print("delta_FR = ");
+    // Serial.print(delta_FR);
+    // Serial.print("          ");
+    // Serial.print("delta_BL = ");
+    // Serial.print(delta_BL);
+    // Serial.print("          ");
+    // Serial.print("delta_BR = ");
+    // Serial.print(delta_BR);
+    // Serial.print("          x          ");
+    // // Serial.print(Output_Speed)-------------------------------------
+    // Serial.print("output_FL = ");
+    // Serial.print(base_speed + output_FL);
+    // Serial.print("          ");
+    // Serial.print("output_FR = ");
+    // Serial.print(base_speed + output_FR);
+    // Serial.print("          ");
+    // Serial.print("output_BL = ");
+    // Serial.print(base_speed + output_BL);
+    // Serial.print("          ");
+    // Serial.print("output_BR = ");
+    // Serial.print(base_speed + output_BR);
     Serial.print("\n");
   }
   distance = 0;
