@@ -56,7 +56,21 @@ double cal_delta_BR = 0;
 double current_position = 0;
 double previous_time;
 double current_time;
-double posi ;
+double posi;
+
+// Volocity
+int TICKS_PER_REVOLUTION = 4000;
+double WHEEL_RADIUS = 0.05;
+double DELTA_T = 0.01;
+volatile long ticksChange_velocity = 0;
+volatile long ticksPrevious_velocity = 0;
+unsigned long lastTime = 0;
+double previousTime_velocity;
+double previousTicks_velocity;
+
+double omega = 0 ;
+double velocity = 0;
+// Volocity
 
 #include "Motorstop.h"
 #include "Control_movement.h"
@@ -108,7 +122,7 @@ void setup() {
   // motorstop();
 
   while (!Serial)
-  Serial.println("Enter (x,y) for coordinates or command.");
+    Serial.println("Enter (x,y) for coordinates or command.");
 }
 
 void loop() {

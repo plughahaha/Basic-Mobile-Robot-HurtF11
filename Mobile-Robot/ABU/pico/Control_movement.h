@@ -40,10 +40,19 @@ void Control_movement(String direction, int distance) {
   tick = distance * (125);
   average_encoder = 0;
 
+  // velocity --------------------------------------------------
   previous_time = millis();
+  previousTime_velocity = millis();
+  en_FL = encoder_FL.getCount();
+  en_FR = encoder_FR.getCount();
+  en_BL = encoder_BL.getCount();
+  en_BR = encoder_BR.getCount();
+  average_encoder = (abs(en_FL) + abs(en_FR) + abs(en_BL) + abs(en_BR)) / 4;
+  // velocity --------------------------------------------------
 
+  previousTicks_velocity = average_encoder;
   while (average_encoder < tick) {
-    current_time = (millis() - previous_time)/1000 ; 
+    current_time = (millis() - previous_time) / 1000;
 
     en_FL = encoder_FL.getCount();
     en_FR = encoder_FR.getCount();
@@ -56,6 +65,24 @@ void Control_movement(String direction, int distance) {
     delta_BL = tick - abs(en_BL);
     delta_BR = tick - abs(en_BR);
     average_delta = (abs(delta_FL) + abs(delta_FR) + abs(delta_BL) + abs(delta_BR)) / 4;
+
+    // Velocity -----------------------------------------------------------------------
+
+
+    if ((millis()) - previousTime_velocity >= DELTA_T * 1000) {
+      ticksChange_velocity = average_encoder - previousTicks_velocity;
+
+      omega = (ticksChange_velocity / (float)TICKS_PER_REVOLUTION) * 2 * PI / DELTA_T;
+      velocity = omega * WHEEL_RADIUS;
+
+      // Serial.print("Velocity: ");
+      // Serial.print(velocity);
+      // Serial.println(" m/s");
+      previousTime_velocity = millis();
+      previousTicks_velocity = average_encoder;
+      // lastTime = currentTime; // อัปเดตเวลา
+    }
+    // Velocity -----------------------------------------------------------------------
 
     // Cal delta for FL
     if (delta_FL > average_delta) {
@@ -276,16 +303,22 @@ void Control_movement(String direction, int distance) {
     integral_BR += error_BR;
     previous_error_BR = error_BR;
 
-    // if (direction == "Forward" || direction == "Backward") {
-    //   current_x += average_encoder / 125;
-    // }
+    // Serial.print("Velocity = ")
+    // Serial.print(velocity)
+    // Serial.print("          ");
 
+    Serial.print("Velocity = ");
+    Serial.print(velocity);
+    Serial.print("          ");
+
+    // Time part-------------------
     Serial.print("Current Time = ");
     Serial.print(current_time);
     Serial.print("          ");
+    // -----------------------------
 
     Serial.print("Current Speed = ");
-    Serial.print(posi/current_time);
+    Serial.print(posi / current_time);
 
     Serial.print("          ");
 
@@ -293,7 +326,7 @@ void Control_movement(String direction, int distance) {
       Serial.print("current = (");
       Serial.print(position_x);
       Serial.print(",");
-      posi = position_y + int(average_encoder / 125) ;
+      posi = position_y + int(average_encoder / 125);
       Serial.print(posi);
       Serial.print(")");
       Serial.print("          ");
