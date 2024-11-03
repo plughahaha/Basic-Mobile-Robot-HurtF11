@@ -84,7 +84,7 @@ void setup() {
   encoder_BL.begin();
   encoder_BR.begin();
   encoder_FL.begin();
-  Serial.begin(9600);
+  Serial.begin(11520);
 
   pinMode(led, OUTPUT);
   for (int i = 1; i < 20; i++) {
@@ -106,7 +106,7 @@ void setup() {
   // Condition_XY(0, 0.9);
   // Condition_XY(0, 1.4);
   // Condition_XY(0, 2.35);
-  
+
   // Control_movement("Forward", 2.5);
   // motorstop();
 
@@ -130,7 +130,7 @@ void setup() {
   // motorstop();
 
   while (!Serial)
-  Serial.println("Enter (x,y) for coordinates or command.");
+    Serial.println("Enter (x,y) for coordinates or command.");
 }
 
 void loop() {
@@ -139,9 +139,9 @@ void loop() {
     if (input.startsWith("(") && input.endsWith(")")) {
       int commaIndex = input.indexOf(',');
       if (commaIndex != -1) {
-        float x = input.substring(1, commaIndex).toFloat(); // เปลี่ยนเป็น toFloat()
-        float y = input.substring(commaIndex + 1, input.length() - 1).toFloat(); // เปลี่ยนเป็น toFloat()
-        Condition_XY(x, y); // ฟังก์ชันของฉันต้องการ input เป็น float 
+        float x = input.substring(1, commaIndex).toFloat();                       // เปลี่ยนเป็น toFloat()
+        float y = input.substring(commaIndex + 1, input.length() - 1).toFloat();  // เปลี่ยนเป็น toFloat()
+        Condition_XY(x, y);                                                       // ฟังก์ชันของฉันต้องการ input เป็น float
       }
     } else if (input == "star" || input == "home") {
       Serial.println("choose star and home");
@@ -149,6 +149,16 @@ void loop() {
       Serial.println("Invalid input!");
     }
   }
+  Serial.print("Current Position (X,Y) = (");
+  Serial.print((position_x) / 100);
+  Serial.print(" m,");
+  Serial.print(position_y / 100);
+  Serial.print(" m)");
+  Serial.print("          ");
+
+  Serial.print("Velocity = ");
+  Serial.print(velocity);
+  Serial.println(" m/s");
 }
 
 
