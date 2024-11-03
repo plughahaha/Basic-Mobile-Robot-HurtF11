@@ -424,4 +424,9 @@ void Control_movement(String direction, float distance) {
   } else if (direction == "SR") {
     position_x += average_encoder / 125;
   }
+  over_encoder_FR = tick - en_FR ;
+  over_encoder_FL = tick - en_FL ;
+  over_encoder_BR = tick - en_BR ;
+  over_encoder_BL = tick - en_BL ;
+  
 }

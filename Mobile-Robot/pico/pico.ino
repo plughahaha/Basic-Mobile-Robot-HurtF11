@@ -11,6 +11,12 @@ int base_speed = 200;
 int Error_Phase_1 = 5;
 int Error_Phase_2 = 15;
 
+// Over encoder
+int over_encoder_FR ;
+int over_encoder_FL ;
+int over_encoder_BR ;
+int over_encoder_BL ;
+
 
 PioEncoder encoder_FR(16);
 PioEncoder encoder_BL(18);
