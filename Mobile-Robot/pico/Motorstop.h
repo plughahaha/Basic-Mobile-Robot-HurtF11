@@ -1,6 +1,6 @@
 void motorstop() {
   int timer0 = millis();
-  while (millis() - timer0 < 1500) {
+  while (millis() - timer0 < 100) {
     motor_FL.stop();
     motor_FR.stop();
     motor_BL.stop();

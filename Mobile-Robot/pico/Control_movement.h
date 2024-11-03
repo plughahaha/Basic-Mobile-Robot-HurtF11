@@ -84,13 +84,13 @@ void Control_movement(String direction, float distance) {
     // Cal delta for FL
     if (delta_FL > average_delta) {
       cal_delta_FL = delta_FL - average_delta;
-      if (cal_delta_FL < 10) {
+      if (cal_delta_FL < Error_Phase_1) {
         error_FL = 0;
       }
-      if (cal_delta_FL > 10) {
+      if (cal_delta_FL > Error_Phase_1) {
         error_FL = 1;
       }
-      if (cal_delta_FL > 100) {
+      if (cal_delta_FL > Error_Phase_2) {
         error_FL = 2;
       }
       if (cal_delta_FL > 200) {
@@ -106,13 +106,13 @@ void Control_movement(String direction, float distance) {
 
     if (delta_FL < average_delta) {
       cal_delta_FL = average_delta - delta_FL;
-      if (cal_delta_FL < 10) {
+      if (cal_delta_FL < Error_Phase_1) {
         error_FL = 0;
       }
-      if (cal_delta_FL > 10) {
+      if (cal_delta_FL > Error_Phase_1) {
         error_FL = -1;
       }
-      if (cal_delta_FL > 100) {
+      if (cal_delta_FL > Error_Phase_2) {
         error_FL = -2;
       }
       if (cal_delta_FL > 200) {
@@ -129,13 +129,13 @@ void Control_movement(String direction, float distance) {
     // Cal delta for FR
     if (delta_FR > average_delta) {
       cal_delta_FR = delta_FR - average_delta;
-      if (cal_delta_FR < 10) {
+      if (cal_delta_FR < Error_Phase_1) {
         error_FR = 0;
       }
-      if (cal_delta_FR > 10) {
+      if (cal_delta_FR > Error_Phase_1) {
         error_FR = 1;
       }
-      if (cal_delta_FR > 100) {
+      if (cal_delta_FR > Error_Phase_2) {
         error_FR = 3;
       }
       if (cal_delta_FR > 200) {
@@ -151,13 +151,13 @@ void Control_movement(String direction, float distance) {
 
     if (delta_FR < average_delta) {
       cal_delta_FR = average_delta - delta_FR;
-      if (cal_delta_FR < 10) {
+      if (cal_delta_FR < Error_Phase_1) {
         error_FR = 0;
       }
-      if (cal_delta_FR > 10) {
+      if (cal_delta_FR > Error_Phase_1) {
         error_FR = -1;
       }
-      if (cal_delta_FR > 100) {
+      if (cal_delta_FR > Error_Phase_2) {
         error_FR = -3;
       }
       if (cal_delta_FR > 200) {
@@ -174,13 +174,13 @@ void Control_movement(String direction, float distance) {
     // Cal delta for BL
     if (delta_BL > average_delta) {
       cal_delta_BL = delta_BL - average_delta;
-      if (cal_delta_BL < 10) {
+      if (cal_delta_BL < Error_Phase_1) {
         error_BL = 0;
       }
-      if (cal_delta_BL > 10) {
+      if (cal_delta_BL > Error_Phase_1) {
         error_BL = 1;
       }
-      if (cal_delta_BL > 100) {
+      if (cal_delta_BL > Error_Phase_2) {
         error_BL = 2;
       }
       if (cal_delta_BL > 200) {
@@ -196,13 +196,13 @@ void Control_movement(String direction, float distance) {
 
     if (delta_BL < average_delta) {
       cal_delta_BL = average_delta - delta_BL;
-      if (cal_delta_BL < 10) {
+      if (cal_delta_BL < Error_Phase_1) {
         error_BL = 0;
       }
-      if (cal_delta_BL > 10) {
+      if (cal_delta_BL > Error_Phase_1) {
         error_BL = -1;
       }
-      if (cal_delta_BL > 100) {
+      if (cal_delta_BL > Error_Phase_2) {
         error_BL = -2;
       }
       if (cal_delta_BL > 200) {
@@ -219,13 +219,13 @@ void Control_movement(String direction, float distance) {
     // Cal delta for BR
     if (delta_BR > average_delta) {
       cal_delta_BR = delta_BR - average_delta;
-      if (cal_delta_BR < 10) {
+      if (cal_delta_BR < Error_Phase_1) {
         error_BR = 0;
       }
-      if (cal_delta_BR > 10) {
+      if (cal_delta_BR > Error_Phase_1) {
         error_BR = 1;
       }
-      if (cal_delta_BR > 100) {
+      if (cal_delta_BR > Error_Phase_2) {
         error_BR = 2;
       }
       if (cal_delta_BR > 200) {
@@ -241,13 +241,13 @@ void Control_movement(String direction, float distance) {
 
     if (delta_BR < average_delta) {
       cal_delta_BR = average_delta - delta_BR;
-      if (cal_delta_BR < 10) {
+      if (cal_delta_BR < Error_Phase_1) {
         error_BR = 0;
       }
-      if (cal_delta_BR > 10) {
+      if (cal_delta_BR > Error_Phase_1) {
         error_BR = -1;
       }
-      if (cal_delta_BR > 100) {
+      if (cal_delta_BR > Error_Phase_2) {
         error_BR = -2;
       }
       if (cal_delta_BR > 200) {

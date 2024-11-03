@@ -7,7 +7,10 @@
 float tick = 0;
 float position_x = 0;
 float position_y = 0;
-int base_speed = 128;
+int base_speed = 200;
+int Error_Phase_1 = 5;
+int Error_Phase_2 = 15;
+
 
 PioEncoder encoder_FR(16);
 PioEncoder encoder_BL(18);
@@ -21,11 +24,10 @@ Motor motor_BR(13, 14, 15);
 float last_x = 0;
 float last_y = 0;
 
-float Kp = 0, Ki = 0, Kd = 0;
-float Kp_FL = 8, Ki_FL = 0, Kd_FL = 0;
-float Kp_FR = 8, Ki_FR = 0, Kd_FR = 0;
-float Kp_BL = 8, Ki_BL = 0, Kd_BL = 0;
-float Kp_BR = 8, Ki_BR = 0, Kd_BR = 0;
+float Kp_FL = 15, Ki_FL = 0, Kd_FL = 30;
+float Kp_FR = 15, Ki_FR = 0, Kd_FR = 30;
+float Kp_BL = 15, Ki_BL = 0, Kd_BL = 30;
+float Kp_BR = 15, Ki_BR = 0, Kd_BR = 30;
 float integral_FR = 0, integral_FL = 0, integral_BL = 0, integral_BR = 0;
 float previous_error_FL = 0, previous_error_FR = 0, previous_error_BL = 0, previous_error_BR = 0;
 
@@ -96,17 +98,10 @@ void setup() {
   }
   digitalWrite(led, HIGH);
 
-  motor_FL.speed(128);
-  motor_FR.speed(128);
-  motor_BL.speed(128);
-  motor_BR.speed(128);
-  delay(1000);
-  motorstop();
-  delay(1000);
+  Condition_XY(0, -1);
+  Condition_XY(0, 0);
 
-  // Condition_XY(0, 0.9);
-  // Condition_XY(0, 1.4);
-  // Condition_XY(0, 2.35);
+  
 
   // Control_movement("Forward", 2.5);
   // motorstop();

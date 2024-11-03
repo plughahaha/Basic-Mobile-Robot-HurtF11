@@ -45,13 +45,13 @@ void Two_motor_FR(String direction, int distance) {
 
     if (delta_FL > average_delta) {
       cal_delta_FL = delta_FL - average_delta;
-      if (cal_delta_FL < 10) {
+      if (cal_delta_FL < Error_Phase_1) {
         error_FL = 0;
       }
-      if (cal_delta_FL > 10) {
+      if (cal_delta_FL > Error_Phase_1) {
         error_FL = 1;
       }
-      if (cal_delta_FL > 100) {
+      if (cal_delta_FL > Error_Phase_2) {
         error_FL = 3;
       }
       if (cal_delta_FL > 200) {
@@ -67,13 +67,13 @@ void Two_motor_FR(String direction, int distance) {
 
     if (delta_FL < average_delta) {
       cal_delta_FL = average_delta - delta_FL;
-      if (cal_delta_FL < 10) {
+      if (cal_delta_FL < Error_Phase_1) {
         error_FL = 0;
       }
-      if (cal_delta_FL > 10) {
+      if (cal_delta_FL > Error_Phase_1) {
         error_FL = -1;
       }
-      if (cal_delta_FL > 100) {
+      if (cal_delta_FL > Error_Phase_2) {
         error_FL = -3;
       }
       if (cal_delta_FL > 200) {
@@ -90,13 +90,13 @@ void Two_motor_FR(String direction, int distance) {
     // Cal delta for BR
     if (delta_BR > average_delta) {
       cal_delta_BR = delta_BR - average_delta;
-      if (cal_delta_BR < 10) {
+      if (cal_delta_BR < Error_Phase_1) {
         error_BR = 0;
       }
-      if (cal_delta_BR > 10) {
+      if (cal_delta_BR > Error_Phase_1) {
         error_BR = 1;
       }
-      if (cal_delta_BR > 100) {
+      if (cal_delta_BR > Error_Phase_2) {
         error_BR = 2;
       }
       if (cal_delta_BR > 200) {
@@ -112,13 +112,13 @@ void Two_motor_FR(String direction, int distance) {
 
     if (delta_BR < average_delta) {
       cal_delta_BR = average_delta - delta_BR;
-      if (cal_delta_BR < 10) {
+      if (cal_delta_BR < Error_Phase_1) {
         error_BR = 0;
       }
-      if (cal_delta_BR > 10) {
+      if (cal_delta_BR > Error_Phase_1) {
         error_BR = -1;
       }
-      if (cal_delta_BR > 100) {
+      if (cal_delta_BR > Error_Phase_2) {
         error_BR = -2;
       }
       if (cal_delta_BR > 200) {
