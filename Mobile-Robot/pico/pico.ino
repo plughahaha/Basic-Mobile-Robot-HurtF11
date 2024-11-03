@@ -1,3 +1,4 @@
+// check
 #include "MOTOR.h"
 #define led 25
 #include "pio_encoder.h"
@@ -21,10 +22,10 @@ float last_x = 0;
 float last_y = 0;
 
 float Kp = 0, Ki = 0, Kd = 0;
-float Kp_FL = 3, Ki_FL = 0, Kd_FL = 0;
-float Kp_FR = 3, Ki_FR = 0, Kd_FR = 0;
-float Kp_BL = 3, Ki_BL = 0.01, Kd_BL = 0;
-float Kp_BR = 3, Ki_BR = 0.01, Kd_BR = 0;
+float Kp_FL = 8, Ki_FL = 0, Kd_FL = 0;
+float Kp_FR = 8, Ki_FR = 0, Kd_FR = 0;
+float Kp_BL = 8, Ki_BL = 0, Kd_BL = 0;
+float Kp_BR = 8, Ki_BR = 0, Kd_BR = 0;
 float integral_FR = 0, integral_FL = 0, integral_BL = 0, integral_BR = 0;
 float previous_error_FL = 0, previous_error_FR = 0, previous_error_BL = 0, previous_error_BR = 0;
 
