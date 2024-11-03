@@ -77,14 +77,19 @@ void setup() {
   }
   digitalWrite(led, HIGH);
 
-  // // Control Check
-  // Two_motor_FR("FR", 50);
+  // motor_FL.speed(128);
+  // motor_FR.speed(128);
+  // motor_BL.speed(128);
+  // motor_BR.speed(128);
+
+  // Control Check
+  // Two_motor_FR("FR", 200);
   // motorstop();
-  // Two_motor_FR("BL", 50);
+  // Two_motor_FR("BL", 200);
   // motorstop();
-  // Two_motor_FL("FL", 50);
+  // Two_motor_FL("FL", 200);
   // motorstop();
-  // Two_motor_FL("BR", 50);
+  // Two_motor_FL("BR", 200);
   // motorstop();
 
   // Control_movement("Forward", 60);

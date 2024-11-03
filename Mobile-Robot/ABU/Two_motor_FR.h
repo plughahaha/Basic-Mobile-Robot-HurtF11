@@ -1,7 +1,7 @@
 
 void Two_motor_FR(String direction, int distance) {
-  encoder_FR.reset();
-  encoder_BL.reset();
+  encoder_FL.reset();
+  encoder_BR.reset();
   average_encoder = 0;
   average_delta = 0;
   en_FL = 0;
@@ -36,115 +36,115 @@ void Two_motor_FR(String direction, int distance) {
   tick = distance * (125);
   average_encoder = 0;
   while (average_encoder < tick) {
-    en_FR = encoder_FR.getCount();
-    en_BL = encoder_BL.getCount();
-    average_encoder = (abs(en_FR) + abs(en_BL)) / 2;
+    en_FL = encoder_FL.getCount();
+    en_BR = encoder_BR.getCount();
+    average_encoder = (abs(en_FL) + abs(en_BR)) / 2;
 
-    delta_FR = tick - abs(en_FR);
-    delta_BL = tick - abs(en_BL);
+    delta_FL = tick - abs(en_FL);
+    delta_BR = tick - abs(en_BR);
 
-    average_delta = (abs(delta_FR) + abs(delta_BL)) / 2;
+    average_delta = (abs(delta_FL) + abs(delta_BR)) / 2;
 
-    if (delta_FR > average_delta) {
-      cal_delta_FR = delta_FR - average_delta;
-      if (cal_delta_FR < 10) {
-        error_FR = 0;
+    if (delta_FL > average_delta) {
+      cal_delta_FL = delta_FL - average_delta;
+      if (cal_delta_FL < 10) {
+        error_FL = 0;
       }
-      if (cal_delta_FR > 10) {
-        error_FR = 1;
+      if (cal_delta_FL > 10) {
+        error_FL = 1;
       }
-      if (cal_delta_FR > 100) {
-        error_FR = 3;
+      if (cal_delta_FL > 100) {
+        error_FL = 3;
       }
-      if (cal_delta_FR > 200) {
-        error_FR = 4;
+      if (cal_delta_FL > 200) {
+        error_FL = 4;
       }
-      if (cal_delta_FR > 500) {
-        error_FR = 5;
+      if (cal_delta_FL > 500) {
+        error_FL = 5;
       }
-      if (cal_delta_FR > 1000) {
-        error_FR = 7;
+      if (cal_delta_FL > 1000) {
+        error_FL = 7;
       }
     }
 
-    if (delta_FR < average_delta) {
-      cal_delta_FR = average_delta - delta_FR;
-      if (cal_delta_FR < 10) {
-        error_FR = 0;
+    if (delta_FL < average_delta) {
+      cal_delta_FL = average_delta - delta_FL;
+      if (cal_delta_FL < 10) {
+        error_FL = 0;
       }
-      if (cal_delta_FR > 10) {
-        error_FR = -1;
+      if (cal_delta_FL > 10) {
+        error_FL = -1;
       }
-      if (cal_delta_FR > 100) {
-        error_FR = -3;
+      if (cal_delta_FL > 100) {
+        error_FL = -3;
       }
-      if (cal_delta_FR > 200) {
-        error_FR = -4;
+      if (cal_delta_FL > 200) {
+        error_FL = -4;
       }
-      if (cal_delta_FR > 500) {
-        error_FR = -5;
+      if (cal_delta_FL > 500) {
+        error_FL = -5;
       }
-      if (cal_delta_FR > 1000) {
-        error_FR = -7;
-      }
-    }
-
-    // Cal delta for BL
-    if (delta_BL > average_delta) {
-      cal_delta_BL = delta_BL - average_delta;
-      if (cal_delta_BL < 10) {
-        error_BL = 0;
-      }
-      if (cal_delta_BL > 10) {
-        error_BL = 1;
-      }
-      if (cal_delta_BL > 100) {
-        error_BL = 2;
-      }
-      if (cal_delta_BL > 200) {
-        error_BL = 3;
-      }
-      if (cal_delta_BL > 500) {
-        error_BL = 5;
-      }
-      if (cal_delta_BL > 1000) {
-        error_BL = 7;
+      if (cal_delta_FL > 1000) {
+        error_FL = -7;
       }
     }
 
-    if (delta_BL < average_delta) {
-      cal_delta_BL = average_delta - delta_BL;
-      if (cal_delta_BL < 10) {
-        error_BL = 0;
+    // Cal delta for BR
+    if (delta_BR > average_delta) {
+      cal_delta_BR = delta_BR - average_delta;
+      if (cal_delta_BR < 10) {
+        error_BR = 0;
       }
-      if (cal_delta_BL > 10) {
-        error_BL = -1;
+      if (cal_delta_BR > 10) {
+        error_BR = 1;
       }
-      if (cal_delta_BL > 100) {
-        error_BL = -2;
+      if (cal_delta_BR > 100) {
+        error_BR = 2;
       }
-      if (cal_delta_BL > 200) {
-        error_BL = -3;
+      if (cal_delta_BR > 200) {
+        error_BR = 3;
       }
-      if (cal_delta_BL > 500) {
-        error_BL = -5;
+      if (cal_delta_BR > 500) {
+        error_BR = 5;
       }
-      if (cal_delta_BL > 1000) {
-        error_BL = -7;
+      if (cal_delta_BR > 1000) {
+        error_BR = 7;
       }
     }
 
-    output_FR = (Kp_FR * error_FR) + (Ki_FR * integral_FR) + (Kd_FR * (error_FR - previous_error_FL));
-    output_FR = constrain(output_FR, -255, 255);
-    output_BL = (Kp_BL * error_BL) + (Ki_BL * integral_BL) + (Kd_BL * (error_BL - previous_error_FL));
-    output_BL = constrain(output_BL, -255, 255);
+    if (delta_BR < average_delta) {
+      cal_delta_BR = average_delta - delta_BR;
+      if (cal_delta_BR < 10) {
+        error_BR = 0;
+      }
+      if (cal_delta_BR > 10) {
+        error_BR = -1;
+      }
+      if (cal_delta_BR > 100) {
+        error_BR = -2;
+      }
+      if (cal_delta_BR > 200) {
+        error_BR = -3;
+      }
+      if (cal_delta_BR > 500) {
+        error_BR = -5;
+      }
+      if (cal_delta_BR > 1000) {
+        error_BR = -7;
+      }
+    }
+
+    output_FL = (Kp_FL * error_FL) + (Ki_FL * integral_FL) + (Kd_FL * (error_FL - previous_error_FL));
+    output_FL = constrain(output_FL, -255, 255);
+    output_BR = (Kp_BR * error_BR) + (Ki_BR * integral_BR) + (Kd_BR * (error_BR - previous_error_FL));
+    output_BR = constrain(output_BR, -255, 255);
 
     if (direction == "FR") {
-      motor_FR.speed((base_speed + output_FR) * 1);
-      motor_BL.speed((base_speed + output_BL) * 1);
+      motor_FL.speed((base_speed + output_FL) * 1);
+      motor_BR.speed((base_speed + output_BR) * 1);
     } else if (direction == "BL") {
-      motor_FR.speed((base_speed + output_FR) * -1);
-      motor_BL.speed((base_speed + output_BL) * -1);
+      motor_FL.speed((base_speed + output_FL) * -1);
+      motor_BR.speed((base_speed + output_BR) * -1);
     }
 
     integral_FL += error_FL;
