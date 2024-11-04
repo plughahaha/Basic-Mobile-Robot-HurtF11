@@ -120,7 +120,7 @@ void setup() {
   // delay(500);
   // motorstop();
 
-  Condition_XY(-1, 0);
+  Condition_XY(0, 0.2);
   Condition_XY(0, 0);
 
   while (!Serial)
@@ -133,11 +133,11 @@ void loop() {
     if (input.startsWith("(") && input.endsWith(")")) {
       int commaIndex = input.indexOf(',');
       if (commaIndex != -1) {
-        float x = input.substring(1, commaIndex).toFloat();                       // เปลี่ยนเป็น toFloat()
-        float y = input.substring(commaIndex + 1, input.length() - 1).toFloat();  // เปลี่ยนเป็น toFloat()
-        Condition_XY(x, y);                                                       // ฟังก์ชันของฉันต้องการ input เป็น float
+        float x = input.substring(1, commaIndex).toFloat();                       
+        float y = input.substring(commaIndex + 1, input.length() - 1).toFloat();  
+        Condition_XY(x, y);                                                     
       }
-    } else if (input == "Star" || input == "Home") {
+    } else if (input == "Star" || input == "Home" || input == "Triangle" || input == "Umbrella") {
       Special_condition(input);
     } else {
       Serial.println("Invalid input!");
