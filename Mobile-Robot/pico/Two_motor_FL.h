@@ -40,6 +40,14 @@ void Two_motor_FL(String direction, int distance) {
     en_BL = encoder_BL.getCount();
     average_encoder = (abs(en_FR) + abs(en_BL)) / 2;
 
+    if (key_overencoder == 0) {
+      en_FL -= over_encoder_FL;
+      en_FR -= over_encoder_FR;
+      en_BL -= over_encoder_BL;
+      en_BR -= over_encoder_BR;
+      key_overencoder = 1 ;
+    }
+
     delta_FR = tick - abs(en_FR);
     delta_BL = tick - abs(en_BL);
 
@@ -241,4 +249,9 @@ void Two_motor_FL(String direction, int distance) {
     position_x += average_encoder / 125;
     position_y -= average_encoder / 125;
   }
+  over_encoder_FR = tick - abs(en_FR);
+  over_encoder_FL = tick - abs(en_FL);
+  over_encoder_BR = tick - abs(en_BR);
+  over_encoder_BL = tick - abs(en_BL);
+  key_overencoder = 0;
 }

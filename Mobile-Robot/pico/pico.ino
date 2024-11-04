@@ -12,11 +12,11 @@ int Error_Phase_1 = 5;
 int Error_Phase_2 = 15;
 
 // Over encoder
-int over_encoder_FR ;
-int over_encoder_FL ;
-int over_encoder_BR ;
-int over_encoder_BL ;
-
+int over_encoder_FR;
+int over_encoder_FL;
+int over_encoder_BR;
+int over_encoder_BL;
+int key_overencoder = 0;
 
 PioEncoder encoder_FR(16);
 PioEncoder encoder_BL(18);
@@ -41,7 +41,6 @@ int error_FL = 0;
 int error_FR = 0;
 int error_BL = 0;
 int error_BR = 0;
-
 
 float en_FL = 0;
 float en_FR = 0;
@@ -104,32 +103,15 @@ void setup() {
   }
   digitalWrite(led, HIGH);
 
-  Condition_XY(0, -1);
-  Condition_XY(0, 0);
+  motor_FL.speed(255);
+  motor_FR.speed(255);
+  motor_BL.speed(255);
+  motor_BR.speed(255);
+  delay(500);
+  motorstop();
 
-  
-
-  // Control_movement("Forward", 2.5);
-  // motorstop();
-
-  // Control Check
-  // Two_motor_FR("FR", 200);
-  // motorstop();
-  // Two_motor_FR("BL", 200);
-  // motorstop();
-  // Two_motor_FL("FL", 200);
-  // motorstop();
-  // Two_motor_FL("BR", 200);
-  // motorstop();
-
-  // Control_movement("Forward", 60);
-  // motorstop();
-  // Control_movement("Backward", 60);
-  // motorstop();
-  // Control_movement("SL", 60);
-  // motorstop();
-  // Control_movement("SR", 60);
-  // motorstop();
+  // Condition_XY(0, 1);
+  // Condition_XY(0, 0);
 
   while (!Serial)
     Serial.println("Enter (x,y) for coordinates or command.");

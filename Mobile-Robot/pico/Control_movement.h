@@ -53,16 +53,39 @@ void Control_movement(String direction, float distance) {
   while (average_encoder < tick) {
     current_time = (millis() - previous_time) / 1000;
 
-    en_FL = encoder_FL.getCount();
-    en_FR = encoder_FR.getCount();
-    en_BL = encoder_BL.getCount();
-    en_BR = encoder_BR.getCount();
+    en_FL = abs(encoder_FL.getCount());
+    en_FR = abs(encoder_FR.getCount());
+    en_BL = abs(encoder_BL.getCount());
+    en_BR = abs(encoder_BR.getCount());
     average_encoder = (abs(en_FL) + abs(en_FR) + abs(en_BL) + abs(en_BR)) / 4;
 
     delta_FL = tick - abs(en_FL);
     delta_FR = tick - abs(en_FR);
     delta_BL = tick - abs(en_BL);
     delta_BR = tick - abs(en_BR);
+
+    if (key_overencoder == 0) {
+      en_FL -= over_encoder_FL;
+      en_FR -= over_encoder_FR;
+      en_BL -= over_encoder_BL;
+      en_BR -= over_encoder_BR;
+      key_overencoder = 1 ;
+    }
+
+    // Serial.print(Raw_encoder)------------------------------------
+    Serial.print("encoder FL = ");
+    Serial.print(en_FL);
+    Serial.print("          ");
+    Serial.print("encoder FR = ");
+    Serial.print(en_FR);
+    Serial.print("          ");
+    Serial.print("encoder BL = ");
+    Serial.print(en_BL);
+    Serial.print("          ");
+    Serial.print("encoder BR = ");
+    Serial.print(en_BL);
+    Serial.print("          x          ");
+
     average_delta = (abs(delta_FL) + abs(delta_FR) + abs(delta_BL) + abs(delta_BR)) / 4;
 
     // Velocity -----------------------------------------------------------------------
@@ -370,19 +393,20 @@ void Control_movement(String direction, float distance) {
     Serial.print("error_BR = ");
     Serial.print(delta_BR - average_delta);
     Serial.print("          x          ");
-    // Serial.print(Raw_encoder)------------------------------------
-    Serial.print("encoder FL = ");
-    Serial.print(en_FL);
-    Serial.print("          ");
-    Serial.print("encoder FR = ");
-    Serial.print(en_FR);
-    Serial.print("          ");
-    Serial.print("encoder BL = ");
-    Serial.print(en_BL);
-    Serial.print("          ");
-    Serial.print("encoder BR = ");
-    Serial.print(en_BL);
-    Serial.print("          x          ");
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
     // Serial.print(Delta)-------------------------------------------
     Serial.print("average_delta = ");
     Serial.print(average_delta);
@@ -424,9 +448,9 @@ void Control_movement(String direction, float distance) {
   } else if (direction == "SR") {
     position_x += average_encoder / 125;
   }
-  over_encoder_FR = tick - en_FR ;
-  over_encoder_FL = tick - en_FL ;
-  over_encoder_BR = tick - en_BR ;
-  over_encoder_BL = tick - en_BL ;
-  
+  over_encoder_FR = tick - abs(en_FR);
+  over_encoder_FL = tick - abs(en_FL);
+  over_encoder_BR = tick - abs(en_BR);
+  over_encoder_BL = tick - abs(en_BL);
+  key_overencoder = 0;
 }

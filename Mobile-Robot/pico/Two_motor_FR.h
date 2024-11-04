@@ -1,4 +1,4 @@
-void Two_motor_FR(String direction, int distance) { 
+void Two_motor_FR(String direction, int distance) {
   encoder_FL.reset();
   encoder_BR.reset();
   average_encoder = 0;
@@ -37,6 +37,14 @@ void Two_motor_FR(String direction, int distance) {
     en_FL = encoder_FL.getCount();
     en_BR = encoder_BR.getCount();
     average_encoder = (abs(en_FL) + abs(en_BR)) / 2;
+
+    if (key_overencoder == 0) {
+      en_FL -= over_encoder_FL;
+      en_FR -= over_encoder_FR;
+      en_BL -= over_encoder_BL;
+      en_BR -= over_encoder_BR;
+      key_overencoder = 1;
+    }
 
     delta_FL = tick - abs(en_FL);
     delta_BR = tick - abs(en_BR);
@@ -165,14 +173,14 @@ void Two_motor_FR(String direction, int distance) {
       Serial.print("Current Position (X,Y) = (");
       Serial.print((position_x + int(average_encoder / 125)) / 100);
       Serial.print(" m, ");
-      Serial.print((position_y + int(average_encoder / 125))/100);
+      Serial.print((position_y + int(average_encoder / 125)) / 100);
       Serial.print(" m)");
       Serial.print("          ");
     } else if (direction == "BL") {
       Serial.print("Current Position (X,Y) = (");
-      Serial.print((position_x - int(average_encoder / 125))/100);
+      Serial.print((position_x - int(average_encoder / 125)) / 100);
       Serial.print(" m, ");
-      Serial.print((position_y - int(average_encoder / 125))/100);
+      Serial.print((position_y - int(average_encoder / 125)) / 100);
       Serial.print(" m)");
       Serial.print("          ");
     }
@@ -189,7 +197,7 @@ void Two_motor_FR(String direction, int distance) {
     Serial.print("average_encoder = ");
     Serial.print(average_encoder);
     Serial.print("          x          ");
-    
+
     Serial.print("error_FL = ");
     Serial.print(delta_FL - average_delta);
     Serial.print("          ");
@@ -237,4 +245,9 @@ void Two_motor_FR(String direction, int distance) {
     position_x -= average_encoder / 125;
     position_y -= average_encoder / 125;
   }
+  over_encoder_FR = tick - abs(en_FR);
+  over_encoder_FL = tick - abs(en_FL);
+  over_encoder_BR = tick - abs(en_BR);
+  over_encoder_BL = tick - abs(en_BL);
+  key_overencoder = 0;
 }
