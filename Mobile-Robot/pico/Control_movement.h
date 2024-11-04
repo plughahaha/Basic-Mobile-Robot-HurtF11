@@ -36,7 +36,15 @@ void Control_movement(String direction, float distance) {
   cal_delta_BL = 0;
   cal_delta_BR = 0;
   //  double tick = (distance / 8) * 4000;
-  tick = (distance * (125)) * 100;
+
+  if (direction == "SL" || direction == "SR"){
+    range = 180 ;
+  } else {
+    range = 180 ;
+  }
+  
+
+    tick = (distance * (range)) * 100;
   average_encoder = 0;
 
   // velocity --------------------------------------------------
@@ -69,22 +77,22 @@ void Control_movement(String direction, float distance) {
       en_FR -= over_encoder_FR;
       en_BL -= over_encoder_BL;
       en_BR -= over_encoder_BR;
-      key_overencoder = 1 ;
+      key_overencoder = 1;
     }
 
-    // Serial.print(Raw_encoder)------------------------------------
-    Serial.print("encoder FL = ");
-    Serial.print(en_FL);
-    Serial.print("          ");
-    Serial.print("encoder FR = ");
-    Serial.print(en_FR);
-    Serial.print("          ");
-    Serial.print("encoder BL = ");
-    Serial.print(en_BL);
-    Serial.print("          ");
-    Serial.print("encoder BR = ");
-    Serial.print(en_BL);
-    Serial.print("          x          ");
+    // // Serial.print(Raw_encoder)------------------------------------
+    // Serial.print("encoder FL = ");
+    // Serial.print(en_FL);
+    // Serial.print("          ");
+    // Serial.print("encoder FR = ");
+    // Serial.print(en_FR);
+    // Serial.print("          ");
+    // Serial.print("encoder BL = ");
+    // Serial.print(en_BL);
+    // Serial.print("          ");
+    // Serial.print("encoder BR = ");
+    // Serial.print(en_BL);
+    // Serial.print("          x          ");
 
     average_delta = (abs(delta_FL) + abs(delta_FR) + abs(delta_BL) + abs(delta_BR)) / 4;
 
@@ -329,20 +337,20 @@ void Control_movement(String direction, float distance) {
       Serial.print("Current Position (X,Y) = (");
       Serial.print(position_x / 100);
       Serial.print(" m, ");
-      Serial.print((position_y + (average_encoder / 125)) / 100);
+      Serial.print((position_y + (average_encoder / range)) / 100);
       Serial.print(" m)");
       Serial.print("          ");
     }
     if (direction == "SL") {
       Serial.print("Current Position (X,Y) = (");
-      Serial.print((position_x - float(average_encoder / 125)) / 100);
+      Serial.print((position_x - float(average_encoder / range)) / 100);
       Serial.print(" m,");
       Serial.print(position_y / 100);
       Serial.print(" m)");
       Serial.print("          ");
     } else if (direction == "SR") {
       Serial.print("Current Position (X,Y) = (");
-      Serial.print((position_x + float(average_encoder / 125)) / 100);
+      Serial.print((position_x + float(average_encoder / range)) / 100);
       Serial.print(" m,");
       Serial.print(position_y / 100);
       Serial.print(" m)");
@@ -351,7 +359,7 @@ void Control_movement(String direction, float distance) {
       Serial.print("Current Position (X,Y) = (");
       Serial.print(position_x / 100);
       Serial.print(" m,");
-      Serial.print((position_y - float(average_encoder / 125)) / 100);
+      Serial.print((position_y - float(average_encoder / range)) / 100);
       Serial.print(" m)");
       Serial.print("          ");
     }
@@ -368,85 +376,72 @@ void Control_movement(String direction, float distance) {
     // -----------------------------
 
 
-    // Target Tick-----------------------------------------------
-    Serial.print("tick = ");
-    Serial.print(tick);
-    Serial.print("          ");
-    // Serial.print(average_encoder)------------------------------
-    Serial.print("average_encoder = ");
-    Serial.print(average_encoder);
-    Serial.print("          ");
-    // Serial.print-----------------------------------------------
-    Serial.print("distance = ");
-    Serial.print(average_encoder / 125);
-    Serial.print("          x          ");
-    // Serial.print(Error from PID)--------------------------------
-    Serial.print("error_FL = ");
-    Serial.print(delta_FL - average_delta);
-    Serial.print("          ");
-    Serial.print("error_FR = ");
-    Serial.print(delta_FR - average_delta);
-    Serial.print("          ");
-    Serial.print("error_BL = ");
-    Serial.print(delta_BL - average_delta);
-    Serial.print("          ");
-    Serial.print("error_BR = ");
-    Serial.print(delta_BR - average_delta);
-    Serial.print("          x          ");
-    
+    // // Target Tick-----------------------------------------------
+    // Serial.print("tick = ");
+    // Serial.print(tick);
+    // Serial.print("          ");
+    // // Serial.print(average_encoder)------------------------------
+    // Serial.print("average_encoder = ");
+    // Serial.print(average_encoder);
+    // Serial.print("          ");
+    // // Serial.print-----------------------------------------------
+    // Serial.print("distance = ");
+    // Serial.print(average_encoder / range);
+    // Serial.print("          x          ");
+    // // Serial.print(Error from PID)--------------------------------
+    // Serial.print("error_FL = ");
+    // Serial.print(delta_FL - average_delta);
+    // Serial.print("          ");
+    // Serial.print("error_FR = ");
+    // Serial.print(delta_FR - average_delta);
+    // Serial.print("          ");
+    // Serial.print("error_BL = ");
+    // Serial.print(delta_BL - average_delta);
+    // Serial.print("          ");
+    // Serial.print("error_BR = ");
+    // Serial.print(delta_BR - average_delta);
+    // Serial.print("          x          ");
 
-
-
-
-
-
-
-
-
-
-
-
-
-    // Serial.print(Delta)-------------------------------------------
-    Serial.print("average_delta = ");
-    Serial.print(average_delta);
-    Serial.print("          ");
-    Serial.print("delta_FL = ");
-    Serial.print(delta_FL);
-    Serial.print("          ");
-    Serial.print("delta_FR = ");
-    Serial.print(delta_FR);
-    Serial.print("          ");
-    Serial.print("delta_BL = ");
-    Serial.print(delta_BL);
-    Serial.print("          ");
-    Serial.print("delta_BR = ");
-    Serial.print(delta_BR);
-    Serial.print("          x          ");
-    // Serial.print(Output_Speed)-------------------------------------
-    Serial.print("output_FL = ");
-    Serial.print(base_speed + output_FL);
-    Serial.print("          ");
-    Serial.print("output_FR = ");
-    Serial.print(base_speed + output_FR);
-    Serial.print("          ");
-    Serial.print("output_BL = ");
-    Serial.print(base_speed + output_BL);
-    Serial.print("          ");
-    Serial.print("output_BR = ");
-    Serial.print(base_speed + output_BR);
+    // // Serial.print(Delta)-------------------------------------------
+    // Serial.print("average_delta = ");
+    // Serial.print(average_delta);
+    // Serial.print("          ");
+    // Serial.print("delta_FL = ");
+    // Serial.print(delta_FL);
+    // Serial.print("          ");
+    // Serial.print("delta_FR = ");
+    // Serial.print(delta_FR);
+    // Serial.print("          ");
+    // Serial.print("delta_BL = ");
+    // Serial.print(delta_BL);
+    // Serial.print("          ");
+    // Serial.print("delta_BR = ");
+    // Serial.print(delta_BR);
+    // Serial.print("          x          ");
+    // // Serial.print(Output_Speed)-------------------------------------
+    // Serial.print("output_FL = ");
+    // Serial.print(base_speed + output_FL);
+    // Serial.print("          ");
+    // Serial.print("output_FR = ");
+    // Serial.print(base_speed + output_FR);
+    // Serial.print("          ");
+    // Serial.print("output_BL = ");
+    // Serial.print(base_speed + output_BL);
+    // Serial.print("          ");
+    // Serial.print("output_BR = ");
+    // Serial.print(base_speed + output_BR);
     Serial.print("\n");
   }
   distance = 0;
   if (direction == "Forward") {
-    position_y += average_encoder / 125;
+    position_y += average_encoder / range;
   } else if (direction == "Backward") {
-    position_y -= average_encoder / 125;
+    position_y -= average_encoder / range;
   }
   if (direction == "SL") {
-    position_x -= average_encoder / 125;
+    position_x -= average_encoder / range;
   } else if (direction == "SR") {
-    position_x += average_encoder / 125;
+    position_x += average_encoder / range;
   }
   over_encoder_FR = tick - abs(en_FR);
   over_encoder_FL = tick - abs(en_FL);

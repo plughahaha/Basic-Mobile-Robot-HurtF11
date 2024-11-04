@@ -10,6 +10,7 @@ float position_y = 0;
 int base_speed = 200;
 int Error_Phase_1 = 5;
 int Error_Phase_2 = 15;
+int range ;
 
 // Over encoder
 int over_encoder_FR;
@@ -22,8 +23,8 @@ PioEncoder encoder_FR(16);
 PioEncoder encoder_BL(18);
 PioEncoder encoder_BR(20);
 PioEncoder encoder_FL(0);
-Motor motor_FL(2, 3, 4);
-Motor motor_BL(6, 7, 8);
+Motor motor_FL(5, 3, 4);
+Motor motor_BL(22, 7, 8);
 Motor motor_FR(10, 11, 12);
 Motor motor_BR(13, 14, 15);
 
@@ -86,6 +87,7 @@ float velocity = 0;
 #include "Two_motor_FR.h"
 #include "Two_motor_FL.h"
 #include "Condition_XY.h"
+#include "Special_condition.h"
 
 void setup() {
   encoder_FR.begin();
@@ -103,15 +105,23 @@ void setup() {
   }
   digitalWrite(led, HIGH);
 
-  motor_FL.speed(255);
-  motor_FR.speed(255);
-  motor_BL.speed(255);
-  motor_BR.speed(255);
-  delay(500);
-  motorstop();
+  // motor_FL.speed(200);
+  // motor_FR.speed(200);
+  // motor_BL.speed(200);
+  // motor_BR.speed(200);
+  // delay(500);
+  // motorstop();
+  // delay(500);
 
-  // Condition_XY(0, 1);
-  // Condition_XY(0, 0);
+  // motor_FL.speed(-200);
+  // motor_FR.speed(-200);
+  // motor_BL.speed(-200);
+  // motor_BR.speed(-200);
+  // delay(500);
+  // motorstop();
+
+  Condition_XY(-1, 0);
+  Condition_XY(0, 0);
 
   while (!Serial)
     Serial.println("Enter (x,y) for coordinates or command.");
@@ -127,22 +137,22 @@ void loop() {
         float y = input.substring(commaIndex + 1, input.length() - 1).toFloat();  // เปลี่ยนเป็น toFloat()
         Condition_XY(x, y);                                                       // ฟังก์ชันของฉันต้องการ input เป็น float
       }
-    } else if (input == "star" || input == "home") {
-      Serial.println("choose star and home");
+    } else if (input == "Star" || input == "Home") {
+      Special_condition(input);
     } else {
       Serial.println("Invalid input!");
     }
   }
-  // Serial.print("Current Position (X,Y) = (");
-  // Serial.print((position_x) / 100);
-  // Serial.print(" m,");
-  // Serial.print(position_y / 100);
-  // Serial.print(" m)");
-  // Serial.print("          ");
+  Serial.print("Current Position (X,Y) = (");
+  Serial.print((position_x) / 100);
+  Serial.print(" m,");
+  Serial.print(position_y / 100);
+  Serial.print(" m)");
+  Serial.print("          ");
 
-  // Serial.print("Velocity = ");
-  // Serial.print(velocity);
-  // Serial.println(" m/s");
+  Serial.print("Velocity = ");
+  Serial.print(velocity);
+  Serial.println(" m/s");
 }
 
 
