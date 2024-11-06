@@ -137,7 +137,7 @@ void loop() {
         float y = input.substring(commaIndex + 1, input.length() - 1).toFloat();  
         Condition_XY(x, y);                                                     
       }
-    } else if (input == "Star" || input == "Home" || input == "Triangle" || input == "Umbrella") {
+    } else if (input == "Star" || input == "Home" || input == "Triangle" || input == "Umbrella" || input == "Circle") {
       Special_condition(input);
     } else {
       Serial.println("Invalid input!");
