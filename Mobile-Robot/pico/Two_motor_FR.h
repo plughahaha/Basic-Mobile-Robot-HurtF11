@@ -31,6 +31,7 @@ void Two_motor_FR(String direction, float distance) {
   cal_delta_FR = 0;
   cal_delta_BL = 0;
   cal_delta_BR = 0;
+  
   tick = distance * (370) * 100;
   average_encoder = 0;
   while (average_encoder < tick) {

@@ -1,9 +1,10 @@
-// check
+
 #include "MOTOR.h"
 #define led 25
 #include "pio_encoder.h"
 
 // Tool BOX
+int circle = 0;
 float tick = 0;
 float position_x = 0;
 float position_y = 0;
@@ -120,7 +121,7 @@ void setup() {
   // delay(500);
   // motorstop();
 
-  Condition_XY(0, 0.2);
+  Condition_XY(0, 0.05);
   Condition_XY(0, 0);
 
   while (!Serial)
@@ -138,6 +139,7 @@ void loop() {
         Condition_XY(x, y);                                                     
       }
     } else if (input == "Star" || input == "Home" || input == "Triangle" || input == "Umbrella" || input == "Circle") {
+      delay(5000);
       Special_condition(input);
     } else {
       Serial.println("Invalid input!");
