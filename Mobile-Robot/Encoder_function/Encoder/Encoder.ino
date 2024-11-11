@@ -55,7 +55,6 @@ void loop() {
     // Serial.print(count_X4);
     // Serial.println("\t\t");
 
-    Serial.print("RPM = ");
     Serial.println(rpm);
     
     print = last_print;
