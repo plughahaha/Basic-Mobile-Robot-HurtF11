@@ -1,12 +1,23 @@
+#include "RPi_Pico_TimerInterrupt.h"
+#define dt_us 1000
+float deltaT = dt_us / 1.0e6;
+RPI_PICO_Timer Timer(0);
+bool TimerStatus = false;
+
 #define encoder_A 17
 #define encoder_B 16
 #define led 25
 int count_X1;
 int count_X2;
 int count_X4;
-int print;
-int last_print;
 
+int ticks;
+int TPR = 4000;
+float rpm;
+int last_count_X4 ;
+
+  int print;
+int last_print;
 int lastState_A;
 int lastState_B;
 
@@ -21,6 +32,7 @@ void setup() {
   Serial.begin(9600);
   attachInterrupt(digitalPinToInterrupt(encoder_A), Encoder_function, CHANGE);
   attachInterrupt(digitalPinToInterrupt(encoder_B), Encoder_function, CHANGE);
+  TimerStatus = Timer.attachInterruptInterval(dt_us, TimerHandler);
 }
 
 void loop() {
@@ -35,6 +47,15 @@ void loop() {
 
     Serial.print("count X4 = ");
     Serial.print(count_X4);
+    Serial.print("\t\t");
+
+    Serial.print("RPM = ");
+    Serial.print(rpm);
+    Serial.print("\t\t");
+
+    Serial.print("ticks = ");
+    Serial.print(ticks);
+    Serial.print("\t\t");
     Serial.print("\n");
 
     print = last_print;
@@ -86,8 +107,16 @@ void Encoder_function() {
     }
   }
 
-
   lastState_A = digitalRead(encoder_A);
   lastState_B = digitalRead(encoder_B);
   print += 1;
+}
+
+bool TimerHandler(struct repeating_timer* t) {
+  (void)t;
+  ticks = count_X4 - last_count_X4;
+  last_count_X4 = count_X4;
+
+  rpm = ((float)ticks / TPR) * (60 / deltaT);
+  return true;
 }
