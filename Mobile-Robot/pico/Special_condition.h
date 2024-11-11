@@ -52,7 +52,7 @@ void Special_condition(String type) {
     circle = 1;
     Condition_XY(0, 0);
     circle = 1;
-    Condition_XY(0.1, 0);
+    Condition_XY(0.2, 0);
     circle = 1;
   }
 }

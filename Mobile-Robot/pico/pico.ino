@@ -136,10 +136,10 @@ void loop() {
       if (commaIndex != -1) {
         float x = input.substring(1, commaIndex).toFloat();                       
         float y = input.substring(commaIndex + 1, input.length() - 1).toFloat();  
-        Condition_XY(x, y);                                                     
+        Condition_XY(x, y);                                             
       }
     } else if (input == "Star" || input == "Home" || input == "Triangle" || input == "Umbrella" || input == "Circle") {
-      delay(5000);
+      
       Special_condition(input);
     } else {
       Serial.println("Invalid input!");
