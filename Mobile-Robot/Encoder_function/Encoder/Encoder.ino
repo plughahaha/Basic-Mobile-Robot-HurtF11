@@ -31,6 +31,10 @@ void loop() {
 
     Serial.print("count X2 = ");
     Serial.print(count_X2);
+    Serial.print("\t\t");
+
+    Serial.print("count X4 = ");
+    Serial.print(count_X4);
     Serial.print("\n");
 
     print = last_print;
