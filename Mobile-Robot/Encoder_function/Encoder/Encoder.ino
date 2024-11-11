@@ -1,8 +1,12 @@
 #include "RPi_Pico_TimerInterrupt.h"
+// Default #define dt_us 1000
 #define dt_us 1000
 float deltaT = dt_us / 1.0e6;
 RPI_PICO_Timer Timer(0);
 bool TimerStatus = false;
+
+#include "MOTOR.h"
+Motor motor_FR(10, 11, 12);
 
 #define encoder_A 17
 #define encoder_B 16
@@ -12,11 +16,11 @@ int count_X2;
 int count_X4;
 
 int ticks;
-int TPR = 4000;
+int TPR = 3900;
 float rpm;
-int last_count_X4 ;
+int last_count_X4;
 
-  int print;
+int print;
 int last_print;
 int lastState_A;
 int lastState_B;
@@ -33,31 +37,27 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(encoder_A), Encoder_function, CHANGE);
   attachInterrupt(digitalPinToInterrupt(encoder_B), Encoder_function, CHANGE);
   TimerStatus = Timer.attachInterruptInterval(dt_us, TimerHandler);
+
+  motor_FR.speed(255);
 }
 
 void loop() {
   if (last_print != print) {
-    Serial.print("count X1 = ");
-    Serial.print(count_X1);
-    Serial.print("\t\t");
+    // Serial.print("count X1 = ");
+    // Serial.print(count_X1);
+    // Serial.print("\t\t");
 
-    Serial.print("count X2 = ");
-    Serial.print(count_X2);
-    Serial.print("\t\t");
+    // Serial.print("count X2 = ");
+    // Serial.print(count_X2);
+    // Serial.print("\t\t");
 
-    Serial.print("count X4 = ");
-    Serial.print(count_X4);
-    Serial.print("\t\t");
+    // Serial.print("count X4 = ");
+    // Serial.print(count_X4);
+    // Serial.println("\t\t");
 
     Serial.print("RPM = ");
-    Serial.print(rpm);
-    Serial.print("\t\t");
-
-    Serial.print("ticks = ");
-    Serial.print(ticks);
-    Serial.print("\t\t");
-    Serial.print("\n");
-
+    Serial.println(rpm);
+    
     print = last_print;
   }
 }
@@ -120,3 +120,4 @@ bool TimerHandler(struct repeating_timer* t) {
   rpm = ((float)ticks / TPR) * (60 / deltaT);
   return true;
 }
+
